@@ -11,8 +11,8 @@ set -o errexit
 useradd -d /tmp -s /usr/bin/false unifi
 
 # Clean up
-echo "* Cleaning up."
-rm -rf /root/*
+# echo "* Cleaning up."
+# rm -rf /root/*
 
 # Prepare image for provisioning
 sm-prepare-image -y
