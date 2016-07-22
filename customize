@@ -4,12 +4,12 @@
 
 PATH=/opt/local/gnu/bin:/opt/local/bin:/opt/local/sbin:/usr/bin:/usr/sbin
 
-# Exit if any commands fail
-set -o errexit
-
 # UniFi Controller Version
 UNIFI_VERSION="5.0.7"
 UNIFI_HASH="eb437c52d9fda7a584d09a520d43d1a9"
+
+# Exit if any commands fail
+set -o errexit
 
 echo "* Add UniFi user"
 useradd -d /opt/local/UniFi -s /usr/bin/false unifi
@@ -24,20 +24,15 @@ if [[ "${UNIFI_HASH}" != "${LOCAL_HASH}" ]]; then
 fi
 
 echo "* Extract to /opt/local"
-unzip /tmp/UniFi.unix.zip -d /opt/local/UniFi
+unzip /tmp/UniFi.unix.zip -d /opt/local/
 
 echo "* Use local installed mongodb binary"
 ln -sf /opt/local/bin/mongod /opt/local/UniFi/bin/mongod
 
-echo "* Provide own snappy java files, warning this mix versions"
-mv /tmp/snappy-java-1.1.2.4.jar /opt/local/UniFi/lib/snappy-java-1.0.5.jar
-
 echo "* Chown everything to the unify user"
-chown -R unify:other /opt/local/UniFi
+chown -R unifi:other /opt/local/UniFi
 
 # Clean up
 echo "* Cleaning up."
 rm -rf /root/*
-
-# Prepare image for provisioning
 sm-prepare-image -y
