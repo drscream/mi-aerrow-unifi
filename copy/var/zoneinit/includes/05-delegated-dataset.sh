@@ -13,3 +13,7 @@ if zfs list ${DDS} 1>/dev/null 2>&1; then
 
 	zfs set compression=lz4 ${DDS}
 fi
+
+chown unifi:other /opt/local/UniFi/data || true
+chown unifi:other /opt/local/UniFi/logs || true
+chown unifi:other /opt/local/UniFi/work || true
