@@ -2,6 +2,14 @@
 
 # Changelog
 
+## core-unifi-5.7.23
+
+### New
+
+* New version of UniFi controller software. [Thomas Merkel]
+* Switch to openjdk8. [Thomas Merkel]
+* Support nginx ssl proxy if `nginx_ssl` is provided via mdata variable. [Thomas Merkel]
+
 ## core-unifi-5.0.7
 
 ### New
