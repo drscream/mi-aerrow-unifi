@@ -5,8 +5,8 @@
 PATH=/opt/local/gnu/bin:/opt/local/bin:/opt/local/sbin:/usr/bin:/usr/sbin
 
 # UniFi Controller Version
-UNIFI_VERSION="5.0.7"
-UNIFI_HASH="eb437c52d9fda7a584d09a520d43d1a9"
+UNIFI_VERSION="5.7.23"
+UNIFI_HASH="33e1cda0836ce170c731cc03da3e6e97"
 
 # Exit if any commands fail
 set -o errexit
@@ -32,7 +32,18 @@ ln -sf /opt/local/bin/mongod /opt/local/UniFi/bin/mongod
 echo "* Chown everything to the unify user"
 chown -R unifi:other /opt/local/UniFi
 
-# Clean up
-echo "* Cleaning up."
+echo "* Create ssl folder"
+mkdir -p /opt/local/etc/nginx/ssl
+
+echo "* Cleanup home/admin because of delegate dataset usage"
+rm -rf /home/admin/.[^.]*
+
+echo "* Cleaning up"
 rm -rf /root/*
+
+# Provide workaround for /.zonecontrol/metadata.sock issue
+# https://github.com/joyent/smtools/issues/3
+gsed -i 's:^rm -f /.zonecontrol/metadata.sock$:rm -f /.zonecontrol/metadata.sock || true:g' \
+/opt/local/bin/sm-prepare-image
+
 sm-prepare-image -y
